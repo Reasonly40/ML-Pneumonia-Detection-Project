@@ -1,4 +1,5 @@
 /* script.js */
+// TODO: change from getElementById to `querySelector('#<id>)
 function previewImage(event) {
     const imagePreview = document.getElementById('imagePreview');
     const file = event.target.files[0];
@@ -16,7 +17,7 @@ function previewImage(event) {
     }
 }
 
-function submitImage() {
+async function submitImage() {
     const imageInput = document.getElementById('imageUpload');
     const loadingIndicator = document.getElementById('loading');
 
@@ -33,28 +34,26 @@ function submitImage() {
     loadingIndicator.classList.remove('hidden');
 
     // Kirim gambar ke API untuk analisis
-    fetch('https://your-backend-api-url/analyze', { // Ganti dengan endpoint API Anda
+    const response = await fetch('http://localhost:8888/api/v1/image', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(result => {
-        // Beralih ke tampilan kedua
+    
+    if (response.ok){
+        console.log('resp ok!')
+        const result = await response.json()
         loadingIndicator.classList.add('hidden');
 
-        if (result.success) {
-            // Simpan hasil analisis jika diperlukan
-            localStorage.setItem('analysisResult', JSON.stringify(result.data));
+        localStorage.setItem('analysisResult', JSON.stringify(result.data));
 
-            // Redirect ke halaman kedua
-            window.location.href = 'result.html';
-        } else {
-            alert("Analysis failed: " + result.message);
-        }
-    })
-    .catch(error => {
+        // Redirect ke halaman kedua
+        window.location.href = 'result.html';
+    }
+    else {
+        console.log('resp error')
         loadingIndicator.classList.add('hidden');
-        console.error('Error during analysis:', error);
+        error_message = response.body
+        console.error('Error during analysis:', error_message);
         alert("An error occurred during analysis. Please try again.");
-    });
+    }
 }
