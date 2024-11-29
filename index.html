@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesPneumonia.css">
+    <title>Pneumonia Detection</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Pneumonia Lung Disease Detection</h1>
+        <div class="button-group">
+            <label class="custom-file-upload">
+                <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+                Add Image
+            </label>
+            <button class="submit" onclick="submitImage()">Submit</button>
+        </div>
+        <div class="image-preview" id="imagePreview">
+            <p>No image selected</p>
+        </div>
+        <div id="loading" class="loading hidden">Analyzing...</div>
+    </div>
+    <script src="scriptPneumonia.js"></script>
+</body>
+</html>
