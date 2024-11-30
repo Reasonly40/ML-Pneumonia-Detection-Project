@@ -1,4 +1,3 @@
-/* script.js */
 function previewImage(event) {
     const imagePreview = document.getElementById('imagePreview');
     const file = event.target.files[0];
@@ -7,12 +6,12 @@ function previewImage(event) {
         const reader = new FileReader();
 
         reader.onload = function () {
-            imagePreview.innerHTML = `<img src="${reader.result}" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 10px;">`;
+            imagePreview.innerHTML = <img src="${reader.result}" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 10px;">;
         };
 
         reader.readAsDataURL(file);
     } else {
-        imagePreview.innerHTML = `<p>No image selected</p>`;
+        imagePreview.innerHTML = <p>No image selected</p>;
     }
 }
 
@@ -37,24 +36,28 @@ function submitImage() {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(result => {
-        // Beralih ke tampilan kedua
-        loadingIndicator.classList.add('hidden');
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch data from API");
+            }
+            return response.json();
+        })
+        .then(result => {
+            loadingIndicator.classList.add('hidden');
 
-        if (result.success) {
-            // Simpan hasil analisis jika diperlukan
-            localStorage.setItem('analysisResult', JSON.stringify(result.data));
+            if (result.success) {
+                // Simpan hasil analisis ke Local Storage
+                localStorage.setItem('analysisResult', JSON.stringify(result.data));
 
-            // Redirect ke halaman kedua
-            window.location.href = 'result.html';
-        } else {
-            alert("Analysis failed: " + result.message);
-        }
-    })
-    .catch(error => {
-        loadingIndicator.classList.add('hidden');
-        console.error('Error during analysis:', error);
-        alert("An error occurred during analysis. Please try again.");
-    });
+                // Arahkan ke halaman result.html
+                window.location.href = 'result.html';
+            } else {
+                alert("Analysis failed: " + result.message);
+            }
+        })
+        .catch(error => {
+            loadingIndicator.classList.add('hidden');
+            console.error('Error during analysis:', error);
+            alert("An error occurred during analysis. Please try again.");
+        });
 }
