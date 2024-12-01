@@ -1,5 +1,8 @@
 /* script.js */
 // TODO: change from getElementById to `querySelector('#<id>)
+
+const BASE_URL = "z0gb4fpt-8000.asse.devtunnels.ms"
+
 async function previewImage(event) {
     const imagePreview = document.getElementById('imagePreview');
     const file = event.target.files[0];
@@ -34,7 +37,7 @@ async function submitImage() {
     loadingIndicator.classList.remove('hidden');
 
     // Kirim gambar ke API untuk analisis
-    const response = await fetch('https://z0gb4fpt-8000.asse.devtunnels.ms//api/v1/image', {
+    const response = await fetch(`https://${BASE_URL}/api/v1/image`, {
         method: 'POST',
         body: formData
     })
