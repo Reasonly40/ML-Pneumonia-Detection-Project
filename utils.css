@@ -1,0 +1,31 @@
+.flex {
+    display: flex;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.gap-x-1 {
+    row-gap: 0.25rem;
+}
+
+.gap-x-2 {
+    row-gap: 0.5rem;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.item-center {
+    align-items: center;
+}
